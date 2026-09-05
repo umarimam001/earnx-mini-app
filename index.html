@@ -1,1 +1,157 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111111">
+<title>EarnX</title>
+<!-- Telegram Mini App -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<!-- Monetag SDK -->
+<script
+    src="https://libtl.com/sdk.js"
+    data-zone="11731534"
+    data-sdk="show_11731534">
+</script>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        margin: 0;
+        min-height: 100vh;
+        padding: 24px 18px;
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        color: #111;
+    }
+    .container {
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto;
+    }
+    .card {
+        background: #ffffff;
+        border-radius: 22px;
+        padding: 28px 22px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+    .logo {
+        font-size: 52px;
+        margin-bottom: 8px;
+    }
+    h1 {
+        margin: 0;
+        font-size: 30px;
+    }
+    .subtitle {
+        margin: 8px 0 0;
+        color: #666666;
+        font-size: 15px;
+    }
+    .balance-box {
+        margin: 25px 0;
+        padding: 20px;
+        border-radius: 16px;
+        background: #f0f0f0;
+    }
+    .balance-label {
+        font-size: 14px;
+        color: #666666;
+    }
+    .balance {
+        margin-top: 7px;
+        font-size: 30px;
+        font-weight: bold;
+    }
+    .watch-btn {
+        width: 100%;
+        padding: 16px;
+        border: 0;
+        border-radius: 14px;
+        background: #111111;
+        color: #ffffff;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .watch-btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+    .status {
+        min-height: 22px;
+        margin-top: 18px;
+        font-size: 14px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="logo">💰</div>
+        <h1>EarnX</h1>
+        <p class="subtitle">
+            Watch ads and earn rewards
+        </p>
+        <div class="balance-box">
+            <div class="balance-label">
+                Your Balance
+            </div>
+            <div class="balance" id="balance">
+                0.00
+            </div>
+        </div>
+        <button
+            class="watch-btn"
+            id="watchButton"
+            onclick="watchAd()">
+            🎬 Watch Ad & Earn
+        </button>
+        <div
+            class="status"
+            id="status">
+        </div>
+    </div>
+</div>
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+    async function watchAd() {
+        const button = document.getElementById("watchButton");
+        const status = document.getElementById("status");
+        button.disabled = true;
+        status.textContent = "⏳ Loading advertisement...";
+        try {
+            if (typeof show_11731534 !== "function") {
+                throw new Error("Monetag SDK is not available.");
+            }
+            await show_11731534("pop");
+            status.textContent =
+                "✅ Ad completed successfully!";
+            /*
+             * IMPORTANT:
+             *
+             * Do NOT add the user's money here.
+             *
+             * The final reward system will use verified
+             * Monetag data/postback before crediting the
+             * user's EarnX balance.
+             *
+             * Target split:
+             *
+             * 70% = user
+             * 30% = EarnX
+             */
+        } catch (error) {
+            console.log("Ad error:", error);
+            status.textContent =
+                "❌ Advertisement could not be completed.";
+        }
+        button.disabled = false;
+    }
+</script>
+</body>
+</html>
